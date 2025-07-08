@@ -2,12 +2,6 @@ const makeStateIsActiveDecorator = require(`./active-decorator`)
 
 const UPDATE_ROUTE_KEY = `update_route`
 
-function wrapWackyPromise(promise, cb) {
-	promise.then((...args) => {
-		cb(null, ...args)
-	}, cb)
-}
-
 module.exports = function RactiveStateRouter(Ractive, ractiveOptions, options) {
 	function copyIfAppropriate(value) {
 		if (options && options.deepCopyDataOnSet) {
@@ -43,57 +37,39 @@ module.exports = function RactiveStateRouter(Ractive, ractiveOptions, options) {
 
 		const activeDecorator = makeStateIsActiveDecorator(stateRouter)
 
+		async function render(context) {
+			const element = context.element
+			const inputTemplate = context.template
+
+			const defaultDecorators = {
+				active: activeDecorator,
+			}
+
+			function getData() {
+				const copyOfContent = copyIfAppropriate(context.content)
+				return isTemplate(inputTemplate) ? copyOfContent : ({ ...inputTemplate.data, ...copyOfContent })
+			}
+			function getDecorators() {
+				return isTemplate(inputTemplate) ? defaultDecorators : Object.assign(defaultDecorators, inputTemplate.decorators)
+			}
+			function getOptions() {
+				const bareOptions = isTemplate(inputTemplate) ? { template: inputTemplate } : inputTemplate
+
+				return { ...bareOptions, decorators: getDecorators(),
+					data: getData(),
+					el: element }
+			}
+
+			return new ExtendedRactive(getOptions())
+		}
+
 		return {
-			render: function render(context, cb) {
-				const element = context.element
-				const inputTemplate = context.template
-
-				const defaultDecorators = {
-					active: activeDecorator,
-				}
-
-				function getData() {
-					const copyOfContent = copyIfAppropriate(context.content)
-					return isTemplate(inputTemplate) ? copyOfContent : Object.assign({}, inputTemplate.data, copyOfContent)
-				}
-				function getDecorators() {
-					return isTemplate(inputTemplate) ? defaultDecorators : Object.assign(defaultDecorators, inputTemplate.decorators)
-				}
-				function getOptions() {
-					const bareOptions = isTemplate(inputTemplate) ? { template: inputTemplate } : inputTemplate
-
-					return Object.assign({}, bareOptions, {
-						decorators: getDecorators(),
-						data: getData(),
-						el: element,
-					})
-				}
-
-				try {
-					const ractive = new ExtendedRactive(getOptions())
-					cb(null, ractive)
-				} catch (e) {
-					cb(e)
-				}
+			render,
+			destroy: async function destroy(ractive) {
+				return ractive.teardown()
 			},
-			reset: function reset(context, cb) {
-				const ractive = context.domApi
-				ractive.off()
-				if(ractive._observers && Array.isArray(ractive._observers)) {
-					ractive._observers.forEach(o => o.cancel())
-				}
-				wrapWackyPromise(ractive.reset(copyIfAppropriate(context.content)), cb)
-			},
-			destroy: function destroy(ractive, cb) {
-				wrapWackyPromise(ractive.teardown(), cb)
-			},
-			getChildElement: function getChildElement(ractive, cb) {
-				try {
-					const child = ractive.find(`ui-view`)
-					cb(null, child)
-				} catch (e) {
-					cb(e)
-				}
+			getChildElement: async function getChildElement(ractive) {
+				return ractive.find(`ui-view`)
 			},
 		}
 	}
