@@ -12,19 +12,21 @@ You can also [download the stand-alone build from bundle.run](https://bundle.run
 
 ## Breaking changes
 
+Version 9 drops support for ASR <= 7. Requires ASR 8 or later.
+
 In version 7, the "active state" decorator changed from taking a string of state name/options to be parsed apart, to taking the state name, options object, and an optional class name.
 
 ## Usage
 
 ```js
-var StateRouter = require('abstract-state-router')
-var Ractive = require('ractive')
-var makeRactiveStateRenderer = require('ractive-state-router')
-var domready = require('domready')
+const StateRouter = require('abstract-state-router')
+const Ractive = require('ractive')
+const makeRactiveStateRenderer = require('ractive-state-router')
+const domready = require('domready')
 
-var renderer = makeRactiveStateRenderer(Ractive)
+const renderer = makeRactiveStateRenderer(Ractive)
 
-var stateRouter = StateRouter(renderer, 'body')
+const stateRouter = StateRouter(renderer, 'body')
 
 // add whatever states to the state router
 
@@ -40,14 +42,14 @@ domready(function() {
 `options` is an object with one optional property: `deepCopyDataOnSet` (defaults to `false`).  When `true`, the content from the resolve function will be deep copied before being set on the Ractive object, in order to try to maintain the immutability of whatever objects you pass in.
 
 ```js
-var StateRouter = require('abstract-state-router')
-var Ractive = require('ractive')
-var RactiveRenderer = require('ractive-state-router')
+const StateRouter = require('abstract-state-router')
+const Ractive = require('ractive')
+const RactiveRenderer = require('ractive-state-router')
 
-var renderer = RactiveRenderer(Ractive, {
+const renderer = RactiveRenderer(Ractive, {
 	data: { hello: 'world' }
 })
-var stateRouter = StateRouter(renderer, 'body')
+const stateRouter = StateRouter(renderer, 'body')
 ```
 
 ## In templates
