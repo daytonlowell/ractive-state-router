@@ -1,24 +1,27 @@
 {
-  "name": "ractive-state-router",
-  "version": "8.1.0",
-  "description": "A RactiveJS-based rendering layer for the abstract-state-router",
-  "main": "render.js",
-  "scripts": {
-    "test": "node render.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:TehShrike/ractive-state-router.git"
-  },
-  "keywords": [
-    "ractive",
-    "state-router"
-  ],
-  "author": "TehShrike",
-  "license": "WTFPL",
-  "bugs": {
-    "url": "https://github.com/TehShrike/ractive-state-router/issues"
-  },
-  "homepage": "https://github.com/TehShrike/ractive-state-router",
-  "dependencies": {}
+	"name": "ractive-state-router",
+	"version": "8.1.0",
+	"description": "A RactiveJS-based rendering layer for the abstract-state-router",
+	"main": "render.js",
+	"scripts": {
+		"test": "node render.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:TehShrike/ractive-state-router.git"
+	},
+	"keywords": [
+		"ractive",
+		"state-router"
+	],
+	"author": "TehShrike",
+	"license": "WTFPL",
+	"bugs": {
+		"url": "https://github.com/TehShrike/ractive-state-router/issues"
+	},
+	"homepage": "https://github.com/TehShrike/ractive-state-router",
+	"dependencies": {},
+	"peerDependencies": {
+		"abstract-state-router": "^8.0.2"
+	}
 }
