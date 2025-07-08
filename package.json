@@ -1,6 +1,6 @@
 {
 	"name": "ractive-state-router",
-	"version": "8.1.0",
+	"version": "9.0.0",
 	"description": "A RactiveJS-based rendering layer for the abstract-state-router",
 	"main": "render.js",
 	"scripts": {
