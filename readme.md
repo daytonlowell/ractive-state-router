@@ -16,6 +16,9 @@ Version 9 drops support for ASR <= 7. Requires ASR 8 or later.
 
 In version 7, the "active state" decorator changed from taking a string of state name/options to be parsed apart, to taking the state name, options object, and an optional class name.
 
+# Transitioning to a newer DOM library
+If your app is using the Ractive renderer and you’re considering migrating to a newer DOM library (such as Svelte), you may want to support multiple renderers in your project at the same time. This is totally possible. Check out [Using ASR with Multiple Renderers](https://github.com/TehShrike/abstract-state-router/blob/master/multiple-renderers-example.md#using-asr-with-multiple-renderers) for details.
+
 ## Usage
 
 ```js
